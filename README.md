@@ -1,1 +1,1 @@
-# SQL-trends-in-startups
+SQL commands through various small projects
