@@ -1,0 +1,45 @@
+-- Selects all columns in the table
+
+select *
+from transactions;
+
+-- Shows total amount of money (USD) the user bought
+
+select sum(money_in)
+from transactions;
+
+-- The amount of money (USD) the user sold
+
+select sum(money_out)
+from transactions;
+
+-- Shows how many money_in transactions are in the table and how many money_in transactions are in the table where 'BIT' is the currency
+
+select count(money_in)
+from transactions;
+
+select count(money_in)
+from transactions
+  where currency = 'BIT';
+
+-- Shows what is the largest transaction in the table
+
+select max(money_in)
+from transactions;
+
+select max(money_out)
+from transactions;
+
+-- Avergae tranaction for the ETH currency
+
+select avg(money_in)
+from transactions
+  where currency = 'ETH';
+
+-- Builds a ledger for different dates
+
+select date as 'date', round(avg(money_in),2) as 'Average Money in', 
+round(avg(money_out),2) as 'Average Money out'
+from transactions
+  group by 1;
+
