@@ -1,0 +1,51 @@
+-- Shows all the column names with a 10 limit
+
+select *
+from met
+  limit 10;
+
+-- Pieces in American Decorative Art collection
+
+select *
+from met;
+
+-- Number of pieces with a category like celery
+
+select count(*)
+from met
+  where category like '%celery%';
+
+-- oldest pieces in the collection
+
+select title, medium
+from met
+  where data like '%1600%';
+
+-- Top 10 countries with the most pieces
+
+select country, count(*)
+from met
+  where country is not null
+  group by 1
+  order by 2 desc
+  limit 10;
+
+-- Finds all cateogries having more than 100
+
+select category, count(*)
+from met
+  group by 1
+  having count(*) > 100;
+
+-- Counts the number of mediums that contain gold or silver
+
+select case
+  when medium like '%gold%' then 'Gold'
+  when medium like '%silver%' then 'Silver'
+  else null
+  end as 'Bling',
+  count(*)
+  from met
+  where bling is not null
+  group by 1
+  order by 2 desc;
