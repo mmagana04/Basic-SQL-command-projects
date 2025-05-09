@@ -1,0 +1,47 @@
+-- Selects all columns from the places table
+
+SELECT * 
+FROM places;
+
+-- Selects all columns from the reviews table
+
+SELECT * 
+FROM reviews;
+
+-- Selects all places where price_point is less than 20 dollars ($ = 10)
+
+SELECT * 
+FROM places
+WHERE price_point = '$' 
+  OR price_point = '$$'
+
+-- Joins places and reviews 
+
+select id
+from places
+join reviews
+  where places.id = reviews.place_id;
+
+-- Inner joins places and reviews
+
+select places.name, places.average_rating,
+reviews.username, reviews.rating, reviews.review_date, reviews.note
+from places
+inner join reviews
+  where places.id = reviews.place_id;
+
+-- Left joins the places table and the reviews table
+
+select places.name, places.average_rating,
+reviews.username, reviews.rating, reviews.review_date, reviews.note
+from places
+left join reviews
+  where places.id = reviews.place_id;
+
+-- Find the ids of places that do not have any reviews
+
+select places.id, places.name
+from places
+left join reviews
+  on places.id = reviews.places_id
+  where review.place_id is null;
