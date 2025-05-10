@@ -1,0 +1,99 @@
+-- Selects all columns from the users table
+
+SELECT * 
+FROM users
+LIMIT 10;
+
+-- Selects all columns from the posts table
+
+SELECT * 
+FROM posts
+LIMIT 10;
+
+-- Selects all columns from the subreddits table
+
+SELECT * 
+FROM subreddits
+LIMIT 10;
+
+-- Shows count of subreddits
+
+select count(*) as 'subreddit_count'
+from subreddits;
+
+-- Selects the user with the highest score
+
+select username, max(score) 
+  as 'highest_score'
+from users;
+
+-- Selects the post with the highest score
+
+select title, max(score) 
+  as 'highest_score'
+from posts;
+
+-- Selects the top 5 subreddits with the highest subscriber counts
+
+select name as 'highest_subscriber_count'
+from subreddits
+  order by subscriber_count desc
+  limit 5;
+
+-- This shows how many posts each user has made
+
+select users.username, count(*) 
+as 'posts_made'
+from users
+left join posts
+  on users.id = posts.users_id
+group by users.id
+order by 2 desc;
+
+-- Shows whoch users are still active
+
+select *
+from posts
+inner join users
+  on posts.created_date = users.posts.created_date
+
+-- Stacks post2 table on top of the posts table
+
+select *
+from posts
+union
+select *
+from posts2;
+
+-- Shows popular posts with a score of at least 5000
+
+with popular_posts as (
+  select *
+  from posts
+  where score >= 5000;
+)
+select subreddits.name, subreddits.title, subreddits.score, popular_posts.score
+from subreddits
+inner join popular_posts
+  on subreddits.score = popular_posts.score
+order by popular_posts.score desc;
+
+-- Shows the highest scoring post for each subreddit
+
+select posts.title, subreddits.name 
+  as 'subreddit_name', max(posts.score)
+    as 'highest_score'
+  from posts
+  inner join subreddits
+    on posts.title = subreddits.name
+    group by subreddits.id;
+
+-- Calculates the average score for each subreddit
+
+select subreddits.name, avg(posts.score)
+  as 'average_score'
+  from subreddits
+  inner join posts
+    on subreddits.id = posts.subreddits_id
+    group by subreddits.name
+    order by 2 desc;
